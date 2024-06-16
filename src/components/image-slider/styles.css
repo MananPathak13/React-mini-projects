@@ -1,0 +1,9 @@
+.image-wrapper {
+    display: flex;
+    margin: auto auto;
+
+    height: 100vw;
+    width: 100%;
+    background: grey;
+
+}
