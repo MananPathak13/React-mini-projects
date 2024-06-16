@@ -33,6 +33,18 @@ const ImageSlider = ({ url, limit = 5 }) => {
     }, [url]);
 
 
+    const nextImage = () => {
+        currentSlide === images.length - 1 ?
+            (setCurrentSlide(1)) : setCurrentSlide(currentSlide + 1)
+    }
+
+    const prevImage = () => {
+        currentSlide === 0 ?
+            (setCurrentSlide(images.length - 1)) : setCurrentSlide(currentSlide - 1)
+    }
+
+
+
     if (loading) {
         <div>Loading...</div>
     }
@@ -42,19 +54,28 @@ const ImageSlider = ({ url, limit = 5 }) => {
     }
     return (
         <div className='container '>
-            <FaAngleLeft />
+            <FaAngleLeft className='arrow arrow-left' onClick={() => prevImage()} />
             {images && images.length ?
 
-                images.map((imageItem) => (
+                images.map((imageItem, index) => (
                     < img
                         key={imageItem.id}
-                        src={imageItem.url}
-                        alt={imageItem.url}
-                        className='current-Image'
+                        src={imageItem.download_url}
+                        alt={imageItem.download_url}
+                        className={index === currentSlide ? 'current-image' : "current-image hide-current-image"}
                     />
                 )) : null
             }
-            <FaAngleRight />
+            <FaAngleRight className='arrow arrow-right' onClick={() => nextImage()} />
+
+            <span className='circle-indicators'>
+                {images && images.length ? images.map((_, index) => (
+                    <button
+                        key={index}
+                        className={index === currentSlide ? 'current-indicator' : "current-indicator inactive-indicator"}
+                        onClick={() => { setCurrentSlide(index) }}></button>
+                )) : null}
+            </span>
         </div>
     )
 }
