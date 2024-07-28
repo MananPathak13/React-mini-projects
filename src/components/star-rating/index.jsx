@@ -4,35 +4,30 @@ import './styles.css'
 
 const StarRating = ({ numberOfStars = 5 }) => {
 
-    const [rating, setRating] = useState(0);
-    const [hover, setHover] = useState(0);
+    const [stars, setStars] = useState(0)
+    const [hover, setHover] = useState(0)
 
-    const handleRatingClick = (currentIndex) => {
-        setRating(currentIndex);
+
+    const handleHover = (index) => {
+        setHover(index + 1)
     }
 
-    const handleRatingMouseMove = (currentIndex) => {
-        setHover(currentIndex);
+
+    const handleClick = (index) => {
+        setStars(index + 1)
     }
 
-    const handleRatingMouseLeave = () => {
-        setHover(rating);
+    const handleLeave = () => {
+        setHover(0)
     }
-
     return (
         <div className='star-rating'>
             {
-                [...Array(numberOfStars)].map((_, index) => {
-                    index++;
-                    return <FaStar
-                        className={((index <= (rating || hover)) ? "active" : "inactive")}
-                        key={index}
-                        onClick={() => handleRatingClick(index)}
-                        onMouseMove={() => handleRatingMouseMove(index)}
-                        onMouseLeave={() => handleRatingMouseLeave()}
-                        size={40}
-                    />
-                })
+                [...Array(numberOfStars)].map((_, index) => (
+                    <FaStar onMouseEnter={() => handleHover(index)} onClick={() => handleClick(index)} onMouseLeave={() => handleLeave()}
+                        className={index < (hover || stars) ? "active" : "inactive"}
+                        size={40} />
+                ))
             }
         </div>
     )

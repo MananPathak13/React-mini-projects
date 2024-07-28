@@ -3,80 +3,63 @@ import "./styles.css"
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 
 
-const ImageSlider = ({ url, limit = 5 }) => {
+const ImageSlider = ({ url, limit = 5, page = 1 }) => {
+
     const [images, setImages] = useState([]);
-    const [currentSlide, setCurrentSlide] = useState(0);
-    const [error, setError] = useState(null)
-    const [loading, setLoading] = useState(false)
+    const [currentImage, setCurrentImage] = useState(0)
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
 
+    const fetchImages = async () => {
 
-
-    const fetchImages = async (getUrl) => {
         try {
-            setLoading(true)
-            const response = await fetch(`${getUrl}?page=1&limit=${limit}`);
-            const data = await response.json();
-
-            if (data) {
-                setImages(data)
-            }
-
+            setLoading(true);
+            const res = await fetch(`${url}?page=${page}&limit=${limit}`);
+            const data = await res.json();
+            setImages(data);
         } catch (e) {
-            setError(e.message)
+            setError(e);
         }
-        setLoading(false)
-
+        setLoading(false);
     }
 
+    const changeImageRight = () => {
+        if (currentImage === images.length - 1) {
+            setCurrentImage(0)
+        } else {
+            setCurrentImage(currentImage + 1)
+        }
+    }
+    const changeImageLeft = () => {
+        if (currentImage === 0) { setCurrentImage(images.length - 1); }
+        else { setCurrentImage(currentImage - 1) }
+    }
     useEffect(() => {
-        if (url !== '') fetchImages(url)
-    }, [url]);
+        if (url !== "") fetchImages();
+    }, [url])
 
-
-    const nextImage = () => {
-        currentSlide === images.length - 1 ?
-            (setCurrentSlide(1)) : setCurrentSlide(currentSlide + 1)
-    }
-
-    const prevImage = () => {
-        currentSlide === 0 ?
-            (setCurrentSlide(images.length - 1)) : setCurrentSlide(currentSlide - 1)
-    }
-
-
-
-    if (loading) {
-        <div>Loading...</div>
-    }
-
-    if (error != null) {
-        <div>Error Occured! {error}</div>
-    }
+    if (loading) return (<div>Loading</div>);
+    if (error) return (<div>{error}</div>);
     return (
         <div className='container '>
-            <FaAngleLeft className='arrow arrow-left' onClick={() => prevImage()} />
-            {images && images.length ?
-
-                images.map((imageItem, index) => (
-                    < img
-                        key={imageItem.id}
-                        src={imageItem.download_url}
-                        alt={imageItem.download_url}
-                        className={index === currentSlide ? 'current-image' : "current-image hide-current-image"}
-                    />
-                )) : null
-            }
-            <FaAngleRight className='arrow arrow-right' onClick={() => nextImage()} />
+            <FaAngleLeft className='arrow arrow-left' size={40} onClick={() => changeImageLeft()} />
+            {images.map((image, index) => (
+                < img key={index} src={image.download_url} alt={image.author}
+                    className={index === currentImage ? "current-image" : "hide-current-image"} />
+            ))}
+            <FaAngleRight className='arrow arrow-right' size={40} onClick={() => changeImageRight()} />
 
             <span className='circle-indicators'>
-                {images && images.length ? images.map((_, index) => (
+                {images.map((_, index) => (
                     <button
                         key={index}
-                        className={index === currentSlide ? 'current-indicator' : "current-indicator inactive-indicator"}
-                        onClick={() => { setCurrentSlide(index) }}></button>
-                )) : null}
+                        onClick={() => setCurrentImage(index)}
+                        className={index === currentImage ? "indicators current-indicator" : "indicators inactive-indicator"
+                        }></button>
+                ))}
+
             </span>
-        </div>
+        </div >
     )
 }
 

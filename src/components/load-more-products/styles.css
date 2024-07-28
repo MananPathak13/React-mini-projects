@@ -3,12 +3,16 @@
     flex-direction: column;
     gap: 20px;
     align-items: center;
+    width: 100%;
+    /* Ensure full width */
 }
 
 .product-container {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 10px;
+    width: 100%;
+    /* Ensure full width */
 }
 
 .product {
@@ -20,6 +24,9 @@
 }
 
 .product img {
-    width: 200px;
+    width: 100%;
+    /* Ensure images scale within their container */
     height: 200px;
+    object-fit: cover;
+    /* Ensure the image is properly contained */
 }

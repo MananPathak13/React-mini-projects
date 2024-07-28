@@ -1,12 +1,14 @@
 import './App.css';
-import LightDarkMode from './components/light-dark-mode';
+// import LightDarkMode from './components/light-dark-mode';
+// import ScrollIndicator from './components/scrool-indicator';
 // import QrCodeGenerator from './components/qr-code-generator';
 // import Accordian from './components/accordian';
 // import RandomColor from './components/random-color';
 // import StarRating from './components/star-rating';
 // import ImageSlider from './components/image-slider';
 // import TreeView from './components/tree-view';
-// import menu from './components/tree-view/data'
+// import menu from './components/tree-view/data';
+import LoadMoreProducts from './components/load-more-products'
 
 function App() {
   return (
@@ -19,11 +21,12 @@ function App() {
 
       {/* Star Rating */}
       {/* <StarRating className="star-rating" /> */}
+
       {/*Image Slider Component */}
       {/* <ImageSlider url={"https://picsum.photos/v2/list"} /> */}
 
       {/* Load More Compoenet */}
-      {/* <LoadMoreProducts getUrl={"https://dummyjson.com/products"} /> */}
+      <LoadMoreProducts getUrl={"https://dummyjson.com/products"} />
 
       {/* Tree View Container */}
       {/* <TreeView menu={menu} /> */}
@@ -32,7 +35,11 @@ function App() {
       {/* <QrCodeGenerator /> */}
 
       {/* Light Dark Mode Component */}
-      <LightDarkMode />
+      {/* <LightDarkMode /> */}
+
+
+      {/* Scroll Indicator Compoenet */}
+      {/* <ScrollIndicator getUrl='https://dummyjson.com/products' /> */}
 
     </div>
   );
