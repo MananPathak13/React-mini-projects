@@ -1,12 +1,21 @@
 import React from 'react'
-import MenuList from './menu-list'
-import "./styles.css"
+import MenuItem from './menu-item'
+import menus from './data'
+import './styles.css'
 
-const TreeView = ({ menu = [] }) => {
+
+const TreeView = ({ menuList = menus }) => {
     return (
-        <div className='treeview-container'>
-            <MenuList list={menu} />
+        <div className='tree-container'>
+            <ul>
+                {
+                    menuList.map((item, index) => (
+                        < MenuItem item={item} key={index} />
+                    ))
+                }
+            </ul>
         </div>
+
     )
 }
 

@@ -1,32 +1,27 @@
-import { useState } from 'react'
-import MenuList from './menu-list'
-import { FaMinus, FaPlus } from "react-icons/fa"
-
-
+import React, { useState } from 'react'
+import './styles.css'
 
 const MenuItem = ({ item }) => {
-    const [displayChildren, setDisplayChildren] = useState(false);
-
+    const [showChildren, setShowChildren] = useState(false)
     return (
-        <li >
-            <div className='menu-item'>
-                {item.label}
-                {
-                    item && item.children && item.children.length ?
-                        <span onClick={() => setDisplayChildren(!displayChildren)} >
-                            {displayChildren ? <FaMinus color="#fff" size={15} /> : <FaPlus size={15} color="#fff" />}
-                        </span> : null
+        <div>
+            <li className='list-container'>
+                <div className='li-container'>
+                    <p>{item.label}</p>
+                    {item && item.children ? (<span onClick={() => { setShowChildren(!showChildren) }}>{showChildren ? '-' : '+'}</span>) : null}
+                </div>
+                {showChildren && item.children && (
+                    <ul>
+                        {item.children.map((child, index) =>
+                            (<MenuItem item={child} key={index} />)
+
+                        )
+                        }
+                    </ul>
+                )
                 }
-            </div>
-            {
-                item && item.children && item.children.length > 0 && displayChildren ?
-
-                    <MenuList list={item.children} />
-                    : null
-            }
-
-        </li >
-
+            </li>
+        </div>
     )
 }
 
